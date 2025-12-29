@@ -1,5 +1,11 @@
 from rest_framework import serializers
-from cinema.models import Actor, Genre, CinemaHall, Movie
+
+from cinema.models import (
+    Actor,
+    Genre,
+    CinemaHall,
+    Movie,
+)
 
 
 class GenreSerializer(serializers.ModelSerializer):
@@ -21,6 +27,15 @@ class CinemaHallSerializer(serializers.ModelSerializer):
 
 
 class MovieSerializer(serializers.ModelSerializer):
+    actors = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Actor.objects.all()
+    )
+    genres = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Genre.objects.all()
+    )
+
     class Meta:
         model = Movie
         fields = (
